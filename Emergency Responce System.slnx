@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Emergency Responce System.BLL/Emergency Responce System.BLL.csproj" />
+  <Project Path="Emergency Responce System.DAL/Emergency Responce System.DAL.csproj" />
+  <Project Path="Emergency Responce System.Models/Emergency Responce System.Models.csproj" />
+  <Project Path="Emergency Responce System/Emergency Responce System.csproj" />
+</Solution>
