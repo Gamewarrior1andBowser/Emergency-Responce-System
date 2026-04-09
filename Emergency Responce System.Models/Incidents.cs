@@ -8,10 +8,10 @@ namespace Emergency_Responce_System.Models
 {
     public class Incidents
     {
-        public string Description;
-        public string Location;
-        public string Title;
-        public int IncidentID;
+        public string Description{ get; set; }
+        public string Location{ get; set; }
+        public string Title{ get; set; }
+        public int IncidentID { get; set; }
         //public Responders ResponderID;
     }
 }
