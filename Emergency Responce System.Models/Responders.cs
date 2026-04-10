@@ -8,9 +8,9 @@ namespace Emergency_Responce_System.Models
 {
     public class Responders
     {
-        public Incidents IncidentID;
-        public string Name;
-        public int ResponderID;
-        public string Occupation;
+        public Incidents IncidentID{ get; set; }
+        public string Name{ get; set; }
+        public int ResponderID{ get; set; }
+        public string Occupation { get; set; }
     }
 }
