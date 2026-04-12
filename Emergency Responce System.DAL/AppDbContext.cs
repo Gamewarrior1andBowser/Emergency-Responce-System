@@ -2,7 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Emergency_Responce_System.Models;
 
-namespace Emergency_Response_System.DAL
+
+namespace Emergency_Responce_System.DAL
 {
 	public class AppDbContext : IdentityDbContext
 	{
