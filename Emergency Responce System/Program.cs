@@ -46,8 +46,8 @@ namespace Emergency_Response_System
 
             app.MapRazorPages();
 
-            app.Run();
-        }
+			app.Run();
+		}
 
         static async Task SeedRolesAndAdminUserAsync(IServiceProvider serviceProvider)
         {
