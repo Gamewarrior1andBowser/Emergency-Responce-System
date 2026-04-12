@@ -50,3 +50,19 @@ namespace Emergency_Responce_System.Controllers
 
 			return View(incidents);
 		}
+
+		// GET: Incidents/Edit/5
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var incidents = await _context.Incidents.FindAsync(id);
+			if (incidents == null)
+			{
+				return NotFound();
+			}
+			return View(incidents);
+		}
