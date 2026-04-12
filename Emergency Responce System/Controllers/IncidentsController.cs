@@ -119,3 +119,26 @@ namespace Emergency_Responce_System.Controllers
 
 			return View(incidents);
 		}
+
+
+		// POST: Incidents/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var incidents = await _context.Incidents.FindAsync(id);
+			if (incidents != null)
+			{
+				_context.Incidents.Remove(incidents);
+			}
+
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
+
+		private bool IncidentsExists(int id)
+		{
+			return _context.Incidents.Any(e => e.IncidentID == id);
+		}
+	}
+}
