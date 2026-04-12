@@ -20,7 +20,9 @@ namespace Emergency_Response_System
 
             //Identity
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-                options.SignIn.RequireConfirmedAccount = false)
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
@@ -35,6 +37,7 @@ namespace Emergency_Response_System
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 
@@ -64,8 +67,7 @@ namespace Emergency_Response_System
 
                 foreach (string role in roles)
                 {
-                    bool roleExists = await roleManager.RoleExistsAsync(role);
-                    if (!roleExists)
+                    if (!await roleManager.RoleExistsAsync(role))
                     {
                         await roleManager.CreateAsync(new IdentityRole(role));
                     }
