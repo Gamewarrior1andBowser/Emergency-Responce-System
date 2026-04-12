@@ -1,6 +1,7 @@
+using Emergency_Responce_System.DAL;
+using Emergency_Response_System.DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Emergency_Responce_System.DAL;
 
 namespace Emergency_Response_System
 {
@@ -14,14 +15,14 @@ namespace Emergency_Response_System
             builder.Services.AddControllersWithViews();
 
             //DbContext
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             //Identity
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
                 options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>();
 
             WebApplication app = builder.Build();
 
