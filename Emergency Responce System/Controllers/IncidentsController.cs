@@ -19,3 +19,12 @@ namespace Emergency_Responce_System.Controllers
 		{
 			_context = context;
 		}
+
+		// GET: Incidents
+		public async Task<IActionResult> Index()
+		{
+			return View(await _context.Incidents
+				.Include(i => i.Updates)
+				.Include(i => i.Responders)
+				.ToListAsync());
+		}
