@@ -101,3 +101,21 @@ namespace Emergency_Responce_System.Controllers
 			}
 			return View(incidents);
 		}
+
+		// GET: Incidents/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var incidents = await _context.Incidents
+				.FirstOrDefaultAsync(m => m.IncidentID == id);
+			if (incidents == null)
+			{
+				return NotFound();
+			}
+
+			return View(incidents);
+		}
