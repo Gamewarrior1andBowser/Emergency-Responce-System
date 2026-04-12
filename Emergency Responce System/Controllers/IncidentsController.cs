@@ -28,3 +28,25 @@ namespace Emergency_Responce_System.Controllers
 				.Include(i => i.Responders)
 				.ToListAsync());
 		}
+
+
+		// GET: Incidents/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var incidents = await _context.Incidents
+				.Include(i => i.Updates)
+				.Include(i => i.Responders)
+				.FirstOrDefaultAsync(m => m.IncidentID == id);
+
+			if (incidents == null)
+			{
+				return NotFound();
+			}
+
+			return View(incidents);
+		}
