@@ -13,12 +13,12 @@ namespace Emergency_Response_System
             //services
             builder.Services.AddControllersWithViews();
 
-            //DbContext
-                builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+			//DbContext
+			builder.Services.AddDbContext<AppDbContext>(options =>
+	        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            //Identity
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+			//Identity
+			builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
             })
