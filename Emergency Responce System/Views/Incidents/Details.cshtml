@@ -1,0 +1,89 @@
+﻿@model Emergency_Responce_System.Models.Incidents
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Incident Details</h1>
+
+<div>
+    <h4>Incident Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+    </dl>
+</div>
+
+<hr />
+
+<h3>Incident Updates</h3>
+
+@if (Model.Updates != null && Model.Updates.Any())
+{
+    <ul>
+        @foreach (var update in Model.Updates)
+        {
+            <li>
+                <strong>@update.Date</strong> - @update.Status <br />
+                @update.Description
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No updates available.</p>
+}
+
+<hr />
+
+<h3>Assigned Responders</h3>
+
+@if (Model.Responders != null && Model.Responders.Any())
+{
+    <ul>
+        @foreach (var responder in Model.Responders)
+        {
+            <li>
+                @responder.Name (@responder.Occupation)
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No responders assigned.</p>
+}
+
+<hr />
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IncidentID" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

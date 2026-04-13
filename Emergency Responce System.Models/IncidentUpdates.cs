@@ -1,17 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Emergency_Responce_System.Models
 {
-    public class IncidentUpdates
-    {
-        public DateTime Date{ get; set; }
-        public string Status{ get; set; }
-        public int UpdateID{ get; set; }
-        public string Description{ get; set; }
-        public Incidents IncidentID { get; set; }
-    }
+	public class IncidentUpdates
+	{
+		[Key]
+		public int UpdateID { get; set; }
+
+		public DateTime Date { get; set; }
+		public string Status { get; set; }
+		public string Description { get; set; }
+
+		// FK
+
+		public int IncidentID { get; set; }
+
+		// Navigation
+		public Incidents Incident { get; set; }
+	}
 }
