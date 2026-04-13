@@ -1,5 +1,4 @@
 using Emergency_Responce_System.DAL;
-using Emergency_Responce_System.DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
