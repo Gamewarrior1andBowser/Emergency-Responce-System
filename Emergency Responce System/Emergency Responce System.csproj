@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Emergency Responce System.Models\Emergency Responce System.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Data\" />
+  </ItemGroup>
+
 </Project>
