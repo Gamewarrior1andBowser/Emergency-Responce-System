@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emergency_Responce_System.Controllers
 {
-    [Authorize] // user must be logged in for everything
+    //[Authorize] // user must be logged in for everything
     public class IncidentsController : Controller
     {
         private readonly AppDbContext _context;
