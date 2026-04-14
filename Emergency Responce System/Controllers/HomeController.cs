@@ -1,8 +1,9 @@
-using Emergency_Responce_System.Models;
+using System.Diagnostics;
 using Emergency_Responce_System.DAL;
+using Emergency_Responce_System.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace Emergency_Responce_System.Controllers
 {
@@ -27,6 +28,7 @@ namespace Emergency_Responce_System.Controllers
 			return View();
 		}
 
+		[Authorize(Roles = "Admin,Dispatcher")]
 		public async Task<IActionResult> Dashboard()
 		{
 			var incidents = await _context.Incidents

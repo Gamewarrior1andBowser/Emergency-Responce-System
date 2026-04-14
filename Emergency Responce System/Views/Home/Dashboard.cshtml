@@ -1,0 +1,31 @@
+﻿@model List<Emergency_Responce_System.Models.Incidents>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+<p><strong>Total Incidents:</strong> @Model.Count</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Updates</th>
+            <th>Responders</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Location</td>
+                <td>@(item.Updates?.Count ?? 0)</td>
+                <td>@(item.Responders?.Count ?? 0)</td>
+            </tr>
+        }
+    </tbody>
+</table>
