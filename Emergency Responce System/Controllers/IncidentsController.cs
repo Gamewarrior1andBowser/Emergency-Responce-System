@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emergency_Responce_System.Controllers
 {
-	[Authorize] // user must be logged in
+	[Authorize]
 	public class IncidentsController : Controller
 	{
 		private readonly AppDbContext _context;
@@ -21,13 +21,11 @@ namespace Emergency_Responce_System.Controllers
 		}
 
 		// GET: Incidents
-		// All roles can view incidents
 		[Authorize(Roles = "Admin,Citizen")]
 		public async Task<IActionResult> Index()
 		{
 			if (User.IsInRole("Admin"))
 			{
-				// Admin sees ALL incidents
 				return View(await _context.Incidents
 					.Include(i => i.Updates)
 					.Include(i => i.Responders)
@@ -35,7 +33,6 @@ namespace Emergency_Responce_System.Controllers
 			}
 			else
 			{
-				// Citizen sees ONLY their incidents
 				var userId = User.Identity?.Name;
 
 				return View(await _context.Incidents
@@ -47,7 +44,6 @@ namespace Emergency_Responce_System.Controllers
 		}
 
 		// GET: Incidents/Details/5
-		// All roles can view details
 		[Authorize(Roles = "Admin,Citizen")]
 		public async Task<IActionResult> Details(int? id)
 		{
@@ -60,7 +56,6 @@ namespace Emergency_Responce_System.Controllers
 
 			if (incident == null) return NotFound();
 
-			// If NOT admin, only allow owner
 			if (!User.IsInRole("Admin") && incident.UserId != User.Identity?.Name)
 			{
 				return Forbid();
@@ -70,7 +65,6 @@ namespace Emergency_Responce_System.Controllers
 		}
 
 		// GET: Incidents/Create
-		// Citizen creates incidents
 		[Authorize(Roles = "Citizen")]
 		public IActionResult Create()
 		{
@@ -85,7 +79,6 @@ namespace Emergency_Responce_System.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				
 				incidents.UserId = User.Identity?.Name;
 
 				_context.Add(incidents);
@@ -96,73 +89,89 @@ namespace Emergency_Responce_System.Controllers
 		}
 
 		// GET: Incidents/Edit/5
-		// Admin updates incidents
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin,Citizen")]
 		public async Task<IActionResult> Edit(int? id)
 		{
 			if (id == null) return NotFound();
 
-			var incidents = await _context.Incidents.FindAsync(id);
-			if (incidents == null) return NotFound();
+			var incident = await _context.Incidents.FindAsync(id);
+			if (incident == null) return NotFound();
 
-			return View(incidents);
+			if (!User.IsInRole("Admin") && incident.UserId != User.Identity?.Name)
+			{
+				return Forbid();
+			}
+
+			return View(incident);
 		}
 
 		// POST: Incidents/Edit/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin,Citizen")]
 		public async Task<IActionResult> Edit(int id, [Bind("IncidentID,Title,Description,Location")] Incidents incidents)
 		{
 			if (id != incidents.IncidentID) return NotFound();
 
+			var existingIncident = await _context.Incidents.AsNoTracking()
+				.FirstOrDefaultAsync(i => i.IncidentID == id);
+
+			if (existingIncident == null) return NotFound();
+
+			if (!User.IsInRole("Admin") && existingIncident.UserId != User.Identity?.Name)
+			{
+				return Forbid();
+			}
+
 			if (ModelState.IsValid)
 			{
-				try
-				{
-					_context.Update(incidents);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!IncidentsExists(incidents.IncidentID))
-						return NotFound();
-					else
-						throw;
-				}
+				incidents.UserId = existingIncident.UserId;
+
+				_context.Update(incidents);
+				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
+
 			return View(incidents);
 		}
 
 		// GET: Incidents/Delete/5
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin,Citizen")]
 		public async Task<IActionResult> Delete(int? id)
 		{
 			if (id == null) return NotFound();
 
-			var incidents = await _context.Incidents
+			var incident = await _context.Incidents
 				.FirstOrDefaultAsync(m => m.IncidentID == id);
 
-			if (incidents == null) return NotFound();
+			if (incident == null) return NotFound();
 
-			return View(incidents);
+			if (!User.IsInRole("Admin") && incident.UserId != User.Identity?.Name)
+			{
+				return Forbid();
+			}
+
+			return View(incident);
 		}
 
 		// POST: Incidents/Delete/5
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin,Citizen")]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
-			var incidents = await _context.Incidents.FindAsync(id);
+			var incident = await _context.Incidents.FindAsync(id);
 
-			if (incidents != null)
+			if (incident == null) return NotFound();
+
+			if (!User.IsInRole("Admin") && incident.UserId != User.Identity?.Name)
 			{
-				_context.Incidents.Remove(incidents);
+				return Forbid();
 			}
 
+			_context.Incidents.Remove(incident);
 			await _context.SaveChangesAsync();
+
 			return RedirectToAction(nameof(Index));
 		}
 

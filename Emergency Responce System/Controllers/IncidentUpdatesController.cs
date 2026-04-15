@@ -45,32 +45,39 @@ namespace Emergency_Responce_System.Controllers
             return View(incidentUpdates);
         }
 
-        // GET: IncidentUpdates/Create
-        public IActionResult Create()
-        {
-			ViewData["IncidentID"] = new SelectList(_context.Incidents, "IncidentID", "Title");
-			return View();
-        }
+		// GET: IncidentUpdates/Create
+		public IActionResult Create(int incidentId)
+		{
+			var update = new IncidentUpdates
+			{
+				IncidentID = incidentId
+			};
 
-        // POST: IncidentUpdates/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UpdateID,Date,Status,Description,IncidentID")] IncidentUpdates incidentUpdates)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(incidentUpdates);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IncidentID"] = new SelectList(_context.Incidents, "IncidentID", "IncidentID", incidentUpdates.IncidentID);
-            return View(incidentUpdates);
-        }
+			return View(update);
+		}
 
-        // GET: IncidentUpdates/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+		// POST: IncidentUpdates/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create(IncidentUpdates incidentUpdates)
+		{
+			Console.WriteLine("POST HIT");
+			Console.WriteLine("IncidentID: " + incidentUpdates.IncidentID);
+
+			incidentUpdates.Date = DateTime.Now;
+
+			_context.Add(incidentUpdates);
+			await _context.SaveChangesAsync();
+
+			Console.WriteLine("SAVED SUCCESS");
+
+			return RedirectToAction("Details", "Incidents", new { id = incidentUpdates.IncidentID });
+		}
+
+		// GET: IncidentUpdates/Edit/5
+		public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {

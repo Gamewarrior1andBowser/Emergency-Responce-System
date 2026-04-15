@@ -8,7 +8,7 @@ namespace Emergency_Responce_System.Models
 		[Key]
 		public int UpdateID { get; set; }
 
-		public DateTime Date { get; set; }
+		public DateTime? Date { get; set; }
 		public string Status { get; set; }
 		public string Description { get; set; }
 

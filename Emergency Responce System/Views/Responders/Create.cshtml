@@ -1,0 +1,40 @@
+﻿@model Emergency_Responce_System.Models.Responders
+
+@{
+    ViewData["Title"] = "Assign Responder";
+}
+
+<h2 class="mb-4">Assign Responder</h2>
+
+<input type="hidden" asp-for="IncidentID" />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form asp-action="Create">
+
+            <div class="form-group mb-3">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Responder name" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Occupation"></label>
+                <select asp-for="Occupation" class="form-control">
+                    <option>Police</option>
+                    <option>Firefighter</option>
+                    <option>Paramedic</option>
+                </select>
+            </div>
+
+            <input type="hidden" asp-for="IncidentID" />
+
+            <div class="mt-4">
+                <input type="submit" value="Assign" class="btn btn-success me-2" />
+                <a asp-controller="Incidents" asp-action="Index" class="btn btn-secondary">Back</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
